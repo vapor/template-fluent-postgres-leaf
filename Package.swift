@@ -4,14 +4,17 @@ import PackageDescription
 let package = Package(
     name: "template-fluent-postgres-leaf",
     platforms: [
-       .macOS(.v12)
+       .macOS(.v13)
     ],
     dependencies: [
         // 💧 A server-side Swift web framework.
-        .package(url: "https://github.com/vapor/vapor.git", from: "4.76.0"),
+        .package(url: "https://github.com/vapor/vapor.git", from: "4.77.1"),
+        // 🗄 An ORM for SQL and NoSQL databases.
         .package(url: "https://github.com/vapor/fluent.git", from: "4.8.0"),
+        // ὁ8 Fluent driver for Postgres.
         .package(url: "https://github.com/vapor/fluent-postgres-driver.git", from: "2.7.2"),
-        .package(url: "https://github.com/vapor/leaf.git", from: "4.0.0"),
+        // 🍃 An expressive, performant, and extensible templating language built for Swift.
+        .package(url: "https://github.com/vapor/leaf.git", from: "4.2.4"),
     ],
     targets: [
         .executableTarget(
@@ -21,12 +24,6 @@ let package = Package(
                 .product(name: "FluentPostgresDriver", package: "fluent-postgres-driver"),
                 .product(name: "Leaf", package: "leaf"),
                 .product(name: "Vapor", package: "vapor")
-            ],
-            swiftSettings: [
-                // Enable better optimizations when building in Release configuration. Despite the use of
-                // the `.unsafeFlags` construct required by SwiftPM, this flag is recommended for Release
-                // builds. See <https://www.swift.org/server/guides/building.html#building-for-production> for details.
-                .unsafeFlags(["-cross-module-optimization"], .when(configuration: .release))
             ]
         ),
         .testTarget(name: "AppTests", dependencies: [
